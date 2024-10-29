@@ -12,3 +12,52 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Technology {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String
+  tags        String[]
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  questions   Question[]
+  resources   Resource[]
+  projects    Project[]  @relation("ProjectTechnology")
+
+  @@map("technology")
+}
+
+model Question {
+  id           Int        @id @default(autoincrement())
+  question     String
+  answer       String
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  technology   Technology @relation(fields: [technologyId], references: [id])
+  technologyId Int        @map("technology_id")
+
+  @@map("question")
+}
+
+model Resource {
+  id           Int        @id @default(autoincrement())
+  title        String
+  url          String
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  technology   Technology @relation(fields: [technologyId], references: [id])
+  technologyId Int        @map("technology_id")
+
+  @@map("resource")
+}
+
+model Project {
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
+  description  String
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  technologies Technology[] @relation("ProjectTechnology")
+
+  @@map("project")
+}

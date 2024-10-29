@@ -1,10 +1,26 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { TechnologiesModule } from './technologies/technologies.module';
+import { ConfigModule } from '@nestjs/config';
+import { ProjectsModule } from './projects/projects.module';
+import { QuestionsModule } from './questions/questions.module';
+import { ResourcesModule } from './resources/resources.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      // Se utiliza con:
+      // import { ConfigService } from '@nestjs/config';
+      // this.configService.get<string>('DATABASE_URL');
+      isGlobal: true,
+    }),
+    PrismaModule,
+    TechnologiesModule,
+    ProjectsModule,
+    QuestionsModule,
+    ResourcesModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
