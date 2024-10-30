@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
       // request.user = decoded;
       request.user = {
         id: 1,
-        roles: ["admin"],
+        roles: ["admin", "user"],
       };
       return true;
     } catch (error) {
