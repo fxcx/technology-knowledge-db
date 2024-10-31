@@ -9,7 +9,7 @@ import { ResourcesModule } from './resources/resources.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      // Se utiliza con:
+      // Para acceder a variables de entorno, se utiliza:
       // import { ConfigService } from '@nestjs/config';
       // this.configService.get<string>('DATABASE_URL');
       isGlobal: true,
