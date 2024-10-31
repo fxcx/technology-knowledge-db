@@ -89,6 +89,11 @@ export class TechnologiesService {
         },
       };
     }
+    const validOrderFields = ['name', 'createdAt'];
+    const validOrderTypes = ['asc', 'desc'];
+
+    const sortField = validOrderFields.includes(orderBy) ? orderBy : 'createdAt';
+    const sortOrder = validOrderTypes.includes(order) ? order : 'desc';
 
     const [technologies, total] = await Promise.all([
       this.prisma.technology.findMany({
@@ -101,7 +106,7 @@ export class TechnologiesService {
         skip,
         take,
         orderBy: {
-          [orderBy]: order,
+          [sortField]: sortOrder,
         },
       }),
       this.prisma.technology.count({ where }),

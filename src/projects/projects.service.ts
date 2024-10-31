@@ -70,6 +70,12 @@ export class ProjectsService {
       };
     }
 
+    const validOrderFields = ['name', 'createdAt'];
+    const validOrderTypes = ['asc', 'desc'];
+
+    const sortField = validOrderFields.includes(orderBy) ? orderBy : 'createdAt';
+    const sortOrder = validOrderTypes.includes(order) ? order : 'desc';
+
     const [projects, total] = await Promise.all([
       this.prisma.project.findMany({
         where,
@@ -79,7 +85,7 @@ export class ProjectsService {
         skip,
         take,
         orderBy: {
-          [orderBy]: order,
+          [sortField]: sortOrder,
         },
       }),
       this.prisma.project.count({ where }),

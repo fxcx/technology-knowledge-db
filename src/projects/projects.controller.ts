@@ -41,6 +41,9 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Get all projects with optional filtering and pagination' })
   @ApiResponse({ status: 200, description: 'Return all projects.' })
   findAll(
+    // Aqui un ejemplo sin el dto
+    // En este caso hay que validar los enum de orderBy y order en el service
+    // por si el usuario manda un valor inválido
     @Query('search') search?: string,
     @Query('technology') technology?: string,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
