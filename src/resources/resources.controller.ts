@@ -42,6 +42,8 @@ export class ResourcesController {
   @ApiResponse({ status: 200, description: 'Return all resources.' })
   findAll(
     @Query() findResourcesDto: FindResourcesDto,
+    // El skip y take se podrian manejar con el dto de FindResourcesDto
+    // Similar a lo realizado en technologies
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
     @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,
   ) {

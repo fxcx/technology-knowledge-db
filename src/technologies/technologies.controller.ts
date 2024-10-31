@@ -18,7 +18,8 @@ import { UpdateTechnologyDto } from './dto/update-technology.dto';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles, Role } from '../common/decorators/roles.decorator';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { FindTechnologiesDto } from './dto/find-technologies.dto';
 
 @ApiTags('technologies')
 @Controller('technologies')
@@ -41,24 +42,15 @@ export class TechnologiesController {
   @Roles(Role.ADMIN)
   @ApiOperation({ summary: 'Get all technologies' })
   @ApiResponse({ status: 200, description: 'Return all technologies.' })
-  findAll(
-    @Query('tag') tag?: string,
-    @Query('search') search?: string,
-    @Query('project') project?: string,
-    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-    @Query('take', new DefaultValuePipe(10), ParseIntPipe) take?: number,
-    @Query('orderBy') orderBy?: 'name' | 'createdAt',
-    @Query('order') order?: 'asc' | 'desc',
-  ) {
-    return this.technologiesService.findAll({
-      tag,
-      search,
-      project,
-      skip,
-      take,
-      orderBy,
-      order,
-    });
+  @ApiQuery({ name: 'tag', required: false, description: 'Filter by tag' })
+  @ApiQuery({ name: 'search', required: false, description: 'Search term' })
+  @ApiQuery({ name: 'project', required: false, description: 'Filter by project name' })
+  @ApiQuery({ name: 'skip', required: false, description: 'Number of items to skip', type: Number, example: 0 })
+  @ApiQuery({ name: 'take', required: false, description: 'Number of items to take', type: Number, example: 10 })
+  @ApiQuery({ name: 'orderBy', required: false, description: 'Field to order by', enum: ['name', 'createdAt'] })
+  @ApiQuery({ name: 'order', required: false, description: 'Order direction', enum: ['asc', 'desc'] })
+  findAll(@Query() params: FindTechnologiesDto) {
+    return this.technologiesService.findAll(params);
   }
 
   @Get('by-tags')

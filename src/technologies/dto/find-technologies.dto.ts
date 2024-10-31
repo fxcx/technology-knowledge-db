@@ -1,8 +1,8 @@
 import { IsOptional, IsString, IsNumber, IsInt, Min, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer'
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 
-export class FindQuestionsDto {
+export class FindTechnologiesDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -10,27 +10,32 @@ export class FindQuestionsDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
-  technologyId?: number;
+  @IsString()
+  tag?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  project?: string;
 
   @ApiProperty({ required: false, default: 0 })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(0)
-  skip?: number;
+  skip?: number = 0;
 
   @ApiProperty({ required: false, default: 10 })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  take?: number;
+  take?: number = 10;
 
-  @ApiProperty({ required: false, enum: ['question', 'createdAt'] })
+  @ApiProperty({ required: false, enum: ['name', 'createdAt'] })
   @IsOptional()
-  @IsEnum(['question', 'createdAt'])
-  orderBy?: 'question' | 'createdAt';
+  @IsEnum(['name', 'createdAt'])
+  orderBy?: 'name' | 'createdAt';
 
   @ApiProperty({ required: false, enum: ['asc', 'desc'] })
   @IsOptional()
