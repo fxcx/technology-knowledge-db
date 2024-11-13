@@ -1,0 +1,29 @@
+services:
+  postgres_db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+     - POSTGRES_USER = postgres
+     - POSTGRES_PASSWORD = ${PASSWORD_POSTGRES}
+     - POSTGRES_DB = TEC
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Usamos el volumen definido abajo en la sección volumes
+    ports:
+      - '5432:5432'
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: wbv677r2f()/& 
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin  # Volumen opcional para pgAdmin
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres_db
+
+volumes:
+  postgres_data:  # Volumen para persistir los datos de PostgreSQL
+  pgadmin_data:   # Volumen para persistir la configuración de pgAdmin (si lo necesitas)
